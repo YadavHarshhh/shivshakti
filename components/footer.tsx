@@ -13,18 +13,12 @@ export function Footer() {
               environment.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="hover:text-amber-500">
-                <Facebook className="h-5 w-5" />
-                <span className="sr-only">Facebook</span>
-              </Link>
+              
               <Link href="#" className="hover:text-amber-500">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="hover:text-amber-500">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
-              </Link>
+              
             </div>
           </div>
           <div>
@@ -63,15 +57,17 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-1 h-5 w-5 flex-shrink-0 text-amber-500" />
-                <span>123 College Road, University Area, City - 123456</span>
+                <span>Shiv Shakti Hostel near Manipal University (100 Meter From Manipal University Sanjharia-Vatika Road, Ajmer-Jaipur Expy, Dahmi Kalan, Jaipur, Rajasthan 303007
+
+</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0 text-amber-500" />
-                <span>+91 98765 43210</span>
+                <span>+91 85598 55477</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0 text-amber-500" />
-                <span>info@shivshaktihostel.com</span>
+                <span>panwarnarendra893@gmail.com</span>
               </li>
             </ul>
           </div>

@@ -106,21 +106,22 @@ export default function AboutPage() {
         <section className="py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-12 md:grid-cols-2">
-              <div>
-                <h2 className="mb-6 text-3xl font-bold text-gray-900">Our Story</h2>
-                <p className="mb-4 text-lg text-gray-600">
-                  Founded in 2018, Shiv Shakti Hostel began with a simple mission: to provide students with a safe,
-                  comfortable, and supportive living environment that feels like a home away from home.
-                </p>
-                <p className="mb-4 text-lg text-gray-600">
-                  What started as a small facility with just 30 rooms has now grown into a premier student accommodation
-                  with over 200 rooms, modern amenities, and a vibrant community of students from across the country.
-                </p>
-                <p className="mb-4 text-lg text-gray-600">
-                  Our growth has been guided by our commitment to understanding and meeting the evolving needs of
-                  students, while maintaining our core values of excellence, integrity, and community.
-                </p>
-              </div>
+            <div>
+  <h2 className="mb-6 text-3xl font-bold text-gray-900">Our Story</h2>
+  <p className="mb-4 text-lg text-gray-600">
+    Founded in 2020, Shiv Shakti Hostel began with a simple mission: to provide students with a safe,
+    comfortable, and supportive living environment that feels like a home away from home.
+  </p>
+  <p className="mb-4 text-lg text-gray-600">
+    Over the years, we've grown into a premier student accommodation known for its modern amenities,
+    dedicated services, and a vibrant community of students from across the country.
+  </p>
+  <p className="mb-4 text-lg text-gray-600">
+    Our growth has been guided by our commitment to understanding and meeting the evolving needs of
+    students, while maintaining our core values of excellence, integrity, and community.
+  </p>
+</div>
+
               <div className="relative">
                 <div className="relative h-[400px] overflow-hidden rounded-lg shadow-xl">
                   <Image

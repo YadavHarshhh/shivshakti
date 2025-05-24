@@ -1,3 +1,5 @@
+"use client"
+import React, { useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -11,6 +13,67 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 export default function BookNowPage() {
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [roomType, setRoomType] = useState("single")
+  const [moveInDate, setMoveInDate] = useState<Date | undefined>(undefined)
+  const [message, setMessage] = useState("")
+  const [submitting, setSubmitting] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault()
+    setSuccessMessage("")
+    setErrorMessage("")
+
+    if (!firstName || !lastName || !email || !phone || !roomType || !moveInDate) {
+      setErrorMessage("Please fill in all required fields.")
+      return
+    }
+
+    setSubmitting(true)
+
+    try {
+      const response = await fetch("/api/book-now", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          roomType,
+          moveInDate: moveInDate.toISOString().split("T")[0],
+          message,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSuccessMessage(data.message || "Booking inquiry sent successfully!")
+        setFirstName("")
+        setLastName("")
+        setEmail("")
+        setPhone("")
+        setRoomType("single")
+        setMoveInDate(undefined)
+        setMessage("")
+      } else {
+        setErrorMessage(data.message || "Something went wrong. Please try again.")
+      }
+    } catch (error) {
+      setErrorMessage("Something went wrong. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -34,38 +97,71 @@ export default function BookNowPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First Name</Label>
-                      <Input id="first-name" placeholder="Enter your first name" required />
+                      <Input
+                        id="first-name"
+                        placeholder="Enter your first name"
+                        required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        disabled={submitting}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last Name</Label>
-                      <Input id="last-name" placeholder="Enter your last name" required />
+                      <Input
+                        id="last-name"
+                        placeholder="Enter your last name"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        disabled={submitting}
+                      />
                     </div>
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="Enter your email" required />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={submitting}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
-                      <Input id="phone" placeholder="Enter your phone number" required />
+                      <Input
+                        id="phone"
+                        placeholder="Enter your phone number"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        disabled={submitting}
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label>Preferred Room Type</Label>
-                    <RadioGroup defaultValue="single" className="grid gap-3">
+                    <RadioGroup
+                      value={roomType}
+                      onValueChange={(value) => setRoomType(value)}
+                      className="grid gap-3"
+                    >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="single" id="single" />
+                        <RadioGroupItem value="single" id="single" disabled={submitting} />
                         <Label htmlFor="single">Single Seating (₹2,20,000/year)</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="double" id="double" />
+                        <RadioGroupItem value="double" id="double" disabled={submitting} />
                         <Label htmlFor="double">Double Seating (₹1,50,000/year)</Label>
                       </div>
                     </RadioGroup>
@@ -75,13 +171,22 @@ export default function BookNowPage() {
                     <Label htmlFor="move-in">Preferred Move-in Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button variant="outline" className="w-full justify-start text-left font-normal">
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start text-left font-normal"
+                          disabled={submitting}
+                        >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          <span>Pick a date</span>
+                          <span>{moveInDate ? moveInDate.toDateString() : "Pick a date"}</span>
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0">
-                        <Calendar mode="single" initialFocus />
+                        <Calendar
+                          mode="single"
+                          selected={moveInDate}
+                          onSelect={setMoveInDate}
+                          initialFocus
+                        />
                       </PopoverContent>
                     </Popover>
                   </div>
@@ -92,11 +197,21 @@ export default function BookNowPage() {
                       id="message"
                       placeholder="Tell us about any specific requirements, questions, or anything else you'd like us to know..."
                       className="min-h-[120px]"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      disabled={submitting}
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-800">
-                    Submit Inquiry
+                  {errorMessage && (
+                    <p className="text-sm text-red-600">{errorMessage}</p>
+                  )}
+                  {successMessage && (
+                    <p className="text-sm text-green-600">{successMessage}</p>
+                  )}
+
+                  <Button type="submit" className="w-full bg-purple-700 hover:bg-purple-800" disabled={submitting}>
+                    {submitting ? "Submitting..." : "Submit Inquiry"}
                   </Button>
                 </form>
               </CardContent>

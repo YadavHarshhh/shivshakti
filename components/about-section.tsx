@@ -33,7 +33,7 @@ export function AboutSection() {
           <div className="flex flex-col justify-center">
             <h2 className="mb-6 text-3xl font-bold text-white-900 md:text-4xl">About Shiv Shakti Hostel</h2>
             <p className="mb-6 text-lg text-white-600">
-              Established in 2018, Shiv Shakti Hostel has been a trusted name in student accommodation, providing
+              Established in 2020, Shiv Shakti Hostel has been a trusted name in student accommodation, providing
               comfortable and secure living spaces for students from across the country.
             </p>
             <p className="mb-8 text-lg text-white-600">

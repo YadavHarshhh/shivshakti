@@ -150,7 +150,7 @@ export default function ContactPage() {
                     <Mail className="mt-1 h-5 w-5 text-purple-600" />
                     <div>
                       <h3 className="font-semibold">Email</h3>
-                      <p className="text-gray-600">info@shivshaktihostel.com</p>
+                      <p className="text-gray-600">panwarnarendra893@gmail.com</p>
                     </div>
                   </div>
                 </div>
